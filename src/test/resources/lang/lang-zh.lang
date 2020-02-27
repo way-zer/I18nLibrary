@@ -1,0 +1,38 @@
+# 这是一个自定义格式
+# #开头为注释 ##开头为元数据或指令
+
+##FROM
+Hello {v}
+##TO
+你好 {v}
+##END
+
+##FROM
+num {num} {v2} {v3}
+##TO
+数字 {num} {v2} {v3}
+##END
+
+##FROM
+lang is {lang}
+##TO
+当前语言是{lang}
+##END
+
+##FROM
+zh
+##TO
+中文
+##END
+
+##FROM
+Here is Chinese {nest2}
+##TO
+这里将是中文 {nest2}
+##END
+
+##FROM
+nest Test '{nest1}' '{nest2}'
+##TO
+嵌套测试: '{nest1}' '{nest2}'
+##END
