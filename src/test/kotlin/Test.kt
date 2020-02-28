@@ -14,6 +14,7 @@ class Test {
         fun setup() {
             I18nApi.init(Paths.get("src/test/resources/lang"))
             I18nApi.autoAppendForUnknown = false
+            I18nApi.setDisplayName("Lang-in-Code")
         }
     }
 
@@ -63,7 +64,7 @@ class Test {
     fun nested() {
         val nest1 = "Here is Chinese {nest2}".i18n()
         val nest2 = "lang is {lang}".i18n().lang(I18nLang.Default)
-        Assert.assertEquals("嵌套测试: '这里将是中文 lang is CODE_LANG' 'lang is CODE_LANG'",
+        Assert.assertEquals("嵌套测试: '这里将是中文 lang is Lang-in-Code' 'lang is Lang-in-Code'",
                 "nest Test '{nest1}' '{nest2}'".i18n("nest1" to nest1, "nest2" to nest2).lang("zh").toString())
     }
 
@@ -74,6 +75,6 @@ class Test {
                 return getOther("lang")?.toString()
             }
         })
-        Assert.assertEquals("CODE_LANG", "{nestVar}".i18n().toString())
+        Assert.assertEquals("Lang-in-Code", "{nestVar}".i18n().toString())
     }
 }
