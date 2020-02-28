@@ -6,9 +6,10 @@ plugins {
 
 apply plugin: "maven-publish"
 group 'cf.wayzer'
-version '1.0-Beta'
+version '1.0'
 
 repositories {
+    jcenter()
     maven {url "https://maven.aliyun.com/repository/jcenter"}
 }
 

@@ -60,7 +60,7 @@ object I18nFileHandler {
             |##FROM
             |$temp
             |##TO
-            |#==TODO==
+            |# This is created auto, you should change this to you want
             |$temp
             |##END
             |

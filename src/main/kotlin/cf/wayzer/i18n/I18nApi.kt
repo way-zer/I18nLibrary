@@ -1,5 +1,6 @@
 package cf.wayzer.i18n
 
+import cf.wayzer.i18n.I18nApi.toString
 import java.nio.file.Path
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -27,11 +28,13 @@ object I18nApi {
     /**
      * Main api, get string after i18n and vars
      * Must after [init]
+     * @param args vars Support [String] [I18nSentence] [PlaceHoldHandler] [Iterable], others will call [toString]
      */
     fun String.i18n(vararg args: Pair<String, Any>) = I18nSentence(this, args.toMap())
 
     /**
      * For java
+     * @param vars vars Support [String] [I18nSentence] [PlaceHoldHandler] [Iterable], others will call [toString]
      */
     fun i18n(template: String, vars: Map<String, Any>) = I18nSentence(template, vars)
 
@@ -41,9 +44,19 @@ object I18nApi {
     fun resetCache() = I18nMain.resetCache()
 
     /** default seen as [String]
-     *  dynamic use handler [PlaceHoldHandler]*/
+     *  dynamic use handler [PlaceHoldHandler]
+     *  @param value Support [String] [I18nSentence] [PlaceHoldHandler] [Iterable], others will call [toString]
+     */
     fun registerGlobalVal(key: String, value: Any) {
         PlaceHoldManage.globalVars[key] = value
+    }
+
+    /**
+     * Provider vars for all type [T] var
+     * usage: {a.x} typeof a is [T], x is provider by [TypeVariableProvider]
+     */
+    inline fun <reified T : Any> registerTypeProvider(provider: TypeVariableProvider<T>) {
+        PlaceHoldManage.typeProviders[T::class] = provider
     }
 
     var loadLang: (String) -> I18nLang? = {

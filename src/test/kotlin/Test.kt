@@ -2,6 +2,7 @@ import cf.wayzer.i18n.I18nApi
 import cf.wayzer.i18n.I18nApi.i18n
 import cf.wayzer.i18n.I18nLang
 import cf.wayzer.i18n.PlaceHoldHandler
+import cf.wayzer.i18n.TypeVariableProvider
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
@@ -76,5 +77,34 @@ class Test {
             }
         })
         Assert.assertEquals("Lang-in-Code", "{nestVar}".i18n().toString())
+    }
+
+    @Test
+    fun renderList() {
+        val list = (1..3).map { "Line {id}\n".i18n("id" to it) }
+        val text = """
+            |{list}
+            |The END
+        """.trimMargin().i18n("list" to list)
+        val exp = """
+            |Line 1
+            |Line 2
+            |Line 3
+            |The END
+        """.trimMargin()
+        Assert.assertEquals(exp, text.toString())
+    }
+
+    data class Data(val a: Int, val b: String)
+
+    @Test
+    fun varProvider() {
+        I18nApi.registerTypeProvider(object : TypeVariableProvider<Data>() {
+            init {
+                registerVar("a") { it.a }
+                registerVar("b") { it.b }
+            }
+        })
+        Assert.assertEquals("22 ab", "{o.a} {o.b}".i18n("o" to Data(22, "ab")).toString())
     }
 }
